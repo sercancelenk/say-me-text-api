@@ -1,0 +1,165 @@
+<!doctype html>
+<html ng-app="saymeapp">
+<head>
+	<meta charset="utf8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title><%= "#{@title} | #{SITE_TITLE}" %></title>
+	<link rel="stylesheet" href="/theme-one/bower/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/theme-one/bower/bootstrap/dist/css/bootstrap-theme.min.css">
+	<script src="/theme-one/bower/jquery/dist/jquery.min.js"></script>
+	<script src="/theme-one/bower/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/theme-one/bower/jquery-ui/jquery-ui.js"></script>
+	<link rel="stylesheet" href="theme-one/bower/jquery-ui/themes/smoothness/jquery-ui.css">
+	<script src="/theme-one/bower/datatables/media/js/jquery.dataTables.min.js"></script>
+    <!-- Toastr for angularjs -->
+  <link rel="stylesheet" href="/theme-one/bower/toastr/toastr.css">
+  <script src="/theme-one/bower/toastr/toastr.js"></script>
+	
+	<script src="/theme-one/bower/angular/angular.min.js"></script>
+	<script src="/theme-one/bower/angular-datatables/dist/angular-datatables.min.js"></script>
+
+	<script src="/theme-one/scripts/app.js"></script>
+  <script src="/theme-one/scripts/notifications.factory.js"></script>
+
+
+  <!-- Custom CSS -->
+  <link href="/theme-one/css/blog-post.css" rel="stylesheet">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Say Me Captcha</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/faq">F.A.Q.</a></li>
+            <li><a href="/app">API</a></li>
+            <li><a href="/services">Buy Service</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+            <% if (not env['warden'].user.nil?) and  env['warden'].user.account_type.eql?"RESOLVER" %>
+                <li><a style="color:white" href="/resolveCaptcha">Resolve Captcha</a></li>
+            <% end %>
+          </ul>
+          <!--<form class="navbar-form navbar-left" role="search">-->
+            <!--<div class="form-group">-->
+              <!--<input type="text" class="form-control" placeholder="Search">-->
+            <!--</div>-->
+            <!--<button type="submit" class="btn btn-info btn-md">Submit</button>-->
+          <!--</form>-->
+          <ul class="nav navbar-nav navbar-right">
+
+            <% if not env['warden'].user.nil? %>
+                <li><a href="#"><span class="glyphicon glyphicon-user" style="color:#fff"></span> <%=env['warden'].user.namesurname %></a></li>
+                <li><a href="/auth/logout">Logout</a></li>
+            <% end %>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+
+      </div>
+    <div class="row">
+
+      <!-- Blog Post Content Column -->
+      <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8">
+
+        <!-- Blog Post -->
+        <% flash.each do |type, message| %>
+            <div class="alert <%=flash_class(type)%> alert-dismissible fade in">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <ul>
+                <% message.to_s.gsub('[','').split(",").each do |value|%>
+                    <li><%= value %></li>
+                <%end%>
+              </ul>
+
+            </div>
+        <% end %>
+
+        <%= yield %>
+
+      </div>
+
+      <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
+
+        <div class="well" ng-controller="ApiStatusCtrl">
+          <h4 class="btn btn-success form-control">Server Status: {{server_status}}</h4>
+          <ul class="small">
+            <li>Request Count : {{request_count}} <%= @apiInfo['respondedCount'] %></li>
+            <li>Resolve Time(average) : {{resolve_time}}</li>
+          </ul>
+          <p class="text-info text-right small">by last 1 minute</p>
+        </div>
+
+        <div class="well">
+          <% if env['warden'].user.nil? %>
+              <div class="thumbnail">
+                <div class="caption">
+                  <p><a class="btn btn-primary btn-block" href="/register">Create Free Account</a></p>
+                  <p>
+                  <form action="/auth/login" method="post" class="form" role="form"   accept-charset="UTF-8" id="login-nav">
+                    <div class="form-group">
+                      <label class="sr-only" for="exampleInputEmail2">E-mail address</label>
+                      <input type="email" class="form-control" name="user[email]" placeholder="Email address" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="sr-only" for="exampleInputPassword2">Password</label>
+                      <input type="password" class="form-control"  name="user[password]" placeholder="Password" required>
+                    </div>
+                    <div class="checkbox" style="display: none">
+                      <label>
+                        <input type="checkbox"> Remember me
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-success btn-block">Sign in</button>
+                    </div>
+                  </form>
+                  </p>
+                </div>
+              </div>
+          <% else %>
+                  <h4>Support</h4>
+                  <p>Our system is designed to be completely user-friendly and easy-to-use. Should you have any trouble with it, simply email us at com, and a support agent will get back to you as soon as possible.</p>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+    <hr>
+    <footer>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <p class="text-info">Copyright &copy; SayMeCaptcha, 2015</p>
+        </div>
+      </div>
+    </footer>
+
+    </div>
+	<script src="/theme-one/scripts/ie10-viewport-bug-workaround.js"/>
+	
+</body>
+</html>

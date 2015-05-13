@@ -1,0 +1,194 @@
+/*  This CSS is exclusively for our Master-Detail view examples */
+#divMasterDetailWrapper
+{
+    width: 100%;
+    /*height: 300px;*/
+    height: 100%;
+    /*border: 1px solid gray;*/
+    /*padding: 3px;*/
+    /*margin: 2px 1px 2px 5px;*/
+
+}
+#divMasterView
+{
+    width: 30%;
+    min-height: 400px;
+    height: 400px;
+    /*height: 100%;*/
+    background-color: #111;
+    /*margin: 2px;*/
+    /*padding:3px;*/
+    overflow-y: auto;
+    float: left;
+    /*border:1px solid #fff;*/
+}
+#divDetailView
+{
+    min-height: 400px;
+    height: 400px;
+    width:70%;
+    /*float: right;*/
+    /* Fadey background CSS, created with: http://www.colorzilla.com/gradient-editor/ */
+    background: #3c3c3c; /* Old browsers */
+    /*background: -moz-linear-gradient(top,  lightblue 0%, #fff9e5 51%, #fff9e5 100%); *//* FF3.6+ */
+    /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d9d9d9), color-stop(51%,#f2fff2), color-stop(100%,#fff9e5));*//* Chrome,Safari4+ */
+    /*background: -webkit-linear-gradient(top,  d9d9d9 0%,#fff9e5 51%,#fff9e5 100%); *//* Chrome10+,Safari5.1+ */
+    /*background: -o-linear-gradient(top,  #d9d9d9 0%,#fff9e5 51%,#fff9e5 100%); *//* Opera 11.10+ */
+    /*background: -ms-linear-gradient(top,  #d9d9d9 0%,#fff9e5 51%,#fff9e5 100%); *//* IE10+ */
+    /*background: linear-gradient(to bottom,  #d9d9d9 0%,#fff9e5 51%,#fff9e5 100%); *//* W3C */
+    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9d9d9', endColorstr='#fff9e5',GradientType=0 ); *//* IE6-9 */
+
+    /*padding: 0;*/
+    /*margin: 2px;*/
+    overflow-y: auto;
+    /*margin-left: 3px;*/
+    /*border-left: 1px solid gray;*/
+}
+
+
+.cssOneCompanyRecord {
+    height: 60px;
+    width: 100%;
+    position: relative;         /* Very important, for appending child <div>s with absolute positioning later */
+    border-bottom: 1px solid lightblue;
+    background-color: #fff;
+}
+.cssOneCompanyRecord:hover
+{
+    background-color: #5bc0de;
+    cursor: pointer;
+
+}
+.cssCompanySelectedRecord {
+    /*  If this Company record has been selected, we'll display a Red vertical bar next to it */
+    /*border-left: 5px solid black;*/
+    background-color: #5bc0de;
+}
+.cssRequestType
+{
+    position:absolute;
+    top: 10px;
+    left: 40px;
+    font-size: 0.9em
+}
+
+.cssRequestingTime
+{
+    position:absolute;
+    top: 40px;
+    left: 40px;
+    color: #505050;
+    font-size: 0.7em;
+}
+.cssRequestStatus
+{
+    position:absolute;
+    top: 40px;
+    right: 5px;
+    font-size: 0.80em;
+    color: #d9534f;
+}
+.cssCustomerIcon
+{
+    position:absolute;
+    top: 12px;
+    left: 7px;
+    width: 24px;
+    height: 24px;
+}
+
+/*
+ *   This is the CSS for one "Order" record, in our Detail view
+ *
+ *   This one's a little more complicated, as, for each "Order", we'll have an Order Header, followed by a
+ *   collection of "Product" <div>s in that order.
+ *
+ *   But, the theory is just the same.  Each "Product" values gets added to the DOM with a particular CSS class
+ *   to allow us to set their position in the "Product" <div>.
+ */
+
+.cssOneOrderRecord
+{
+    width: 90%;
+    position: relative;         /* Very important, for appending child <div>s with absolute positioning later */
+    padding: 5px;
+    border-bottom: 1px solid white;
+    background-color: white;
+    border: 1px solid #404040;
+    margin: 15px 20px 15px 20px;
+    overflow: no-display;
+}
+.cssOneOrderHeader {
+    height: 40px;
+    background-color: #E0E0E0;
+    width: 100%;
+    position: relative;
+    margin: 0px 0px 4px 0px;
+
+    background-image: url(/images/icnOrder.png);
+    background-position: 10px 5px;
+    background-repeat: no-repeat;
+}
+.cssOrderID
+{
+    position:absolute;
+    left: 75px;
+    top: 10px;
+    font-weight: bold;
+}
+.cssOrderDate
+{
+    position:absolute;
+    left: 300px;
+    top: 10px;
+}
+.cssOneProductRecord
+{
+    width: 100%;
+    height: 25px;
+    position: relative;
+    overflow: hidden;
+}
+.cssOneProductQty
+{
+    position:absolute;
+    left: 30px;
+    top: 5px;
+}
+.cssOneProductName
+{
+    position:absolute;
+    left: 100px;
+    top: 5px;
+}
+.cssOneProductPrice
+{
+    position:absolute;
+    left: 300px;
+    top: 7px;
+}
+.cssOneProductSubtotal {
+    position:absolute;
+    left: 420px;
+    top: 7px;
+    overflow: hidden;
+    height: 20px;
+}
+.cssOneOrderTotal {
+    width: 100%;
+    height: 32px;
+    position: relative;
+    background-color: #e0e0e0;
+    margin: 10px 0px 4px 0px;
+    font-weight: bold;
+    border-top: dashed 1px black;
+    overflow: hidden;
+}
+
+.cssProductEven {
+    background-color: white;
+}
+.cssProductOdd {
+    background-color: #F0F8F8;
+}
+

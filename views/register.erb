@@ -1,0 +1,72 @@
+<h4>Create Free Account</h4>
+
+<% if not form.messages(:register).empty? %>
+    <div class="alert alert-warning alert-dismissible fade in">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <ul>
+        <% form.messages(:register).each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+      </ul>
+
+    </div>
+<% end %>
+<div class="outerwrapper">
+  <div class="formwrapper">
+    <form 	name="registerForm"
+             class="form"
+             novalidate
+             action="/register"
+             method="post"
+             ng-controller="registerFormCtrl" >
+
+      <div class="form-group">
+          <input name="namesurname" class="form-control" ng-model="namesurname" placeholder="Name, Surname" required />
+      </div>
+      <div class="form-group">
+          <input name="email" type="email" unique-email class="form-control" ng-model="email" placeholder="type your e-mail">
+            <div class="help-inline">
+              <span ng-show="!!registerForm.email.$error.email">Not a valid email.</span>
+              <span ng-show="!!registerForm.email.$error.isDuplicate">Duplicate.</span>
+            </div>
+      </div>
+      <div class="form-group" ng-class="{error:!registerForm.pass1.$valid}">
+      <input id="pass1" name="pass1" type="password" class="form-control" ng-model="pass1" placeholder="type password" valid-password />
+        <div class="help-inline">
+            <span ng-show="!!registerForm.pass1.$error.isBlank">Password Required.</span>
+          <span ng-show="!!registerForm.pass1.$error.invalidLen">Must be 8-20 characters.</span>
+          </div>
+      </div>
+      <div class="form-group" ng-class="{error:!registerForm.pass2.$valid}">
+      <input name="pass2" type="password" class="form-control" ng-model="pass2" placeholder="type again password" valid-password-c />
+          <div class="help-inline">
+            <span ng-show="!!registerForm.pass2.$error.isBlank">Confirmation Required.</span>
+            <span ng-show="!!registerForm.pass2.$error.noMatch">Passwords don't match.</span>
+          </div>
+      </div>
+      <div class="form-group text-center">
+        <% session_id = rand(10_000) %>
+        <img style="border:1px solid darkcyan;border-radius:8px;box-shadow: 5px 5px 5px #888888;" src="http://captchator.com/captcha/image/<%= session_id %>" />
+      </div>
+      <div class="form-group">
+            <input name="chunky" type="hidden" value="<%= session_id %>" />
+            <input name="bacon" ng-model="bacon" class="form-control" placeholder="type code"  type="text" size="10" required/>
+        <div class="help-inline">
+          <span ng-show="!!registerForm.pass2.bacon.isBlank">Confirmation Required.</span>
+        </div>
+
+
+      </div>
+      <div class="pull-right">
+        <button type="submit" class="btn btn-info btn-lg" ng-disabled="registerForm.$invalid">Create Account</button>
+        <button ng-click="reset()" class="btn btn-info btn-lg" ng-disabled="isUnchanged(visitorInfo)">Reset</button>
+      </div>
+
+
+    </form>
+ </div>
+  </div>
+
+

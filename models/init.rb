@@ -1,0 +1,10 @@
+# encoding: UTF-8
+require_relative './address'
+require_relative './account'
+require_relative './service_type'
+require_relative './payment'
+require_relative './request_action'
+require_relative './response_action'
+require_relative './constant'
+require_relative './back_return'
+require_relative './contactmessage'

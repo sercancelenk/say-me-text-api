@@ -1,0 +1,88 @@
+/*!
+ * Start Bootstrap - Blog Post HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    font-size: 13px;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+input{
+    font-size: 12px !important;
+    color:gray !important;
+}
+button{
+    font-size:12px !important;
+}
+a.btn{
+    font-size:12px !important;
+}
+
+/*input.ng-invalid.ng-dirty {*/
+    /*background-color:skyblue;*/
+/*}*/
+/*input.ng-valid {*/
+    /*background-color:#fff;*/
+/*}*/
+/*input.ng-invalid.ng-dirty::-webkit-input-placeholder,*/
+/*input.ng-invalid.ng-dirty::-moz-placeholder,*/
+/*input.ng-invalid.ng-dirty::-ms-input-placeholder,*/
+/*input.ng-invalid.ng-dirty {*/
+    /*color:#fff;*/
+/*}*/
+
+.outerwrapper {
+    width:100%;
+}
+
+.formwrapper {
+    border:1px dashed #d3d3d3;
+    border-radius:8px;
+    box-shadow: 5px 5px 5px #888888;
+    float:left;
+    margin-right:15px;
+    padding:4px;
+    width:100%;
+    background: #fff;
+}
+
+.label {
+    float:left;
+    font-size:.9em;
+    font-weight:bold;
+    text-align:right;
+    width:75px;
+    margin-right:60px;
+    line-height:20px;
+    color:black;
+}
+
+.buttons {
+    text-align: right;
+    margin-top:15px;
+    margin-bottom:10px;
+
+}
+
+.submitbtn:enabled {
+    background-color:green;
+    color:white;
+}
+
+.bold {
+    font-weight:bold;
+}
+
+.help-inline{
+    font-size: smaller;
+    color:darkred;
+}
+
+
+

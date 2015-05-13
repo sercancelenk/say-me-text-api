@@ -1,0 +1,56 @@
+<h4>Contact Us</h4>
+<p>You can send anything.</p>
+
+<% if not form.messages(:register).empty? %>
+    <div class="alert alert-warning alert-dismissible fade in">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <ul>
+        <% form.messages(:register).each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+      </ul>
+
+    </div>
+<% end %>
+<div class="outerwrapper">
+  <div class="formwrapper">
+    <form 	name="contactForm"
+             class="form"
+             novalidate
+             action="/contact"
+             method="post"
+             ng-controller="contactFormCtrl" >
+
+      <div class="form-group">
+        <input name="namesurname" class="form-control" ng-model="namesurname" placeholder="Name, Surname" required />
+      </div>
+      <div class="form-group">
+        <input name="email" type="email" class="form-control" ng-model="email" placeholder="type your e-mail" required>
+      </div>
+      <div class="form-group">
+        <textarea name="message" rows="10" class="form-control" ng-model="message" placeholder="type your message" required>
+          </textarea>
+      </div>
+      <div class="form-group text-center">
+        <% session_id = rand(10_000) %>
+        <img style="border:1px solid darkcyan;border-radius:8px;box-shadow: 5px 5px 5px #888888;" src="http://captchator.com/captcha/image/<%= session_id %>" />
+      </div>
+
+      <div class="form-group">
+        <input name="chunky" type="hidden" value="<%= session_id %>" />
+        <input name="bacon" ng-model="bacon" class="form-control" placeholder="type code"  type="text" size="10" required/>
+
+      </div>
+      <div class="pull-right">
+        <button type="submit" class="btn btn-info btn-lg" ng-disabled="contactForm.$invalid">Create Account</button>
+        <button ng-click="reset()" class="btn btn-info btn-lg" >Reset</button>
+      </div>
+
+
+    </form>
+  </div>
+</div>
+
+
