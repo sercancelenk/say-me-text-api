@@ -26,6 +26,7 @@ class Account
   has n, :payment
   has n, :request_action
   has n, :response_action
+  has n, :active_account
 
 
   def authenticate(attempted_password)

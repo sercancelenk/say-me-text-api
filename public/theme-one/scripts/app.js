@@ -200,7 +200,7 @@ saymeapp.controller('MasterDetailCtrl',
         $scope.loading = true;
         $scope.incomingRequestLabel = "Incoming Request";
         $scope.rt = "";
-        $scope.selectedRequest = null;
+        $scope.selectedRequest = {requesting_image:"http://placehold.it/350x150"};
         $scope.respdata = {
             rt: "",
             raid: ""
@@ -248,14 +248,17 @@ saymeapp.controller('MasterDetailCtrl',
             }else{
 
                 $scope.listOfRequests  = [];
-                $scope.selectedRequest = null;
+                $scope.selectRequest(null);
             }
 
 
             if($scope.selectedRequest == null){
                 if($scope.listOfRequests.length>0){
-                    $scope.selectedRequest = $scope.listOfRequests[0]
+                    $scope.selectRequest($scope.listOfRequests[0])
                 }
+            }
+            if($scope.listOfRequests.length <= 0){
+                $scope.selectRequest(null);
             }
         }
         $scope.getRequests = function(){
@@ -277,6 +280,9 @@ saymeapp.controller('MasterDetailCtrl',
             //  If the user clicks on a <div>, we can get the ng-click to call this function, to set a new selected Customer.
             $scope.selectedRequest = null;
             $scope.selectedRequest = val;
+            if(val == null || val.requesting_image==""){
+                $scope.selectedRequest = {requesting_image:"http://placehold.it/350x150"};
+            }
         }
 
         $scope.submitForm = function() {
@@ -305,7 +311,22 @@ saymeapp.controller('MasterDetailCtrl',
 
         },5000);
         //setInterval($scope.getRequests, 10000);
+        // I am active query for active session
+        $interval(function(){
+            $scope.notifyUserToSystem();
+        },2000);
+
         $scope.getRequests();
+
+        $scope.notifyUserToSystem = function(){
+            $http.post('/iamactive',"").
+                success(function(data, status, headers, config) {
+
+                }).
+                error(function(data, status, headers, config) {
+
+                });
+        }
 
     });
 
@@ -329,6 +350,8 @@ saymeapp
             //notificationsFactory.success("Update succedded.");
             c++;
         },4000);
+
+
 
         $scope.getApiInfo = function(timeRange){
             if(timeRange == null){

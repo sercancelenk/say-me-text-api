@@ -19,6 +19,7 @@ require 'sinatra/captcha'
 require 'rufus-scheduler'
 require 'sinatra/kittens'
 
+
 SITE_TITLE = "Say Me Captcha"
 SITE_DESCRIPTION = "ask me "
 
@@ -30,9 +31,16 @@ SITE_DESCRIPTION = "ask me "
 
 class SayMeApp < Sinatra::Application
   register Sinatra::FormKeeper
-
   set :threaded, true
+  # use Rack::Session::Cookie, :key => 'rack.session',
+  #     :domain => 'blahblahblah',
+  #     :path => '/',
+  #     :expire_after => 10000,#7*24*60*60, # 7 days (seconds)
+  #     :secret => 'Sma@@13?>000blahblah'
+
   enable :sessions
+  # set :sessions, :expire_after => 100
+
   set :session_secret, "Sma@@13?>000blahblah"
 
 

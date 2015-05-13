@@ -49,3 +49,4 @@ gem 'rufus-scheduler'
 
 #random kitten photo for not_found pages
 gem 'sinatra-kittens'
+

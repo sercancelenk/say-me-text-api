@@ -32,6 +32,7 @@ class SayMeApp < Sinatra::Application
           filePostfix = fileType.gsub! 'image/', ''
           # Credentials is true, and we are saving incoming image
           requestTime = DateOperations.nowtime
+          timeRange = DateOperations.nowtimeobject - (61)
           constant = Constant.first(:nkey => "base_upload_directory")
           uploadDirectory = constant.nvalue
           tmpFileName = StringOperations.parse uploadDirectory << requestTime.to_s << "_" << fileName
@@ -46,6 +47,8 @@ class SayMeApp < Sinatra::Application
             requestAction.requesting_time = requestTime
             requestAction.request_status = RequestStatus::PENDING
             requestAction.request_type = RequestType::IMAGE
+            activeAccount = ActiveAccount.first(:atime.gt => timeRange, :order => [ :atime.desc ])
+            requestAction.resolver=activeAccount.account
 
             if core.savePojo requestAction
               begin

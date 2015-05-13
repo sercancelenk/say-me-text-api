@@ -1,6 +1,9 @@
 require 'sinatra/captcha'
 
 class SayMeApp < Sinatra::Application
+
+
+
   queryforweb = QueryForWeb.new
   before do
     headers 'Access-Control-Allow-Origin' => '*',
@@ -15,7 +18,6 @@ class SayMeApp < Sinatra::Application
   # Home Page
   get '/' do
 
-    Mail.sendMail "sercancelenk@gmail.com", "Deneme Maili", "<p>Deneme mailidir</p>"
     erb :home, locals: {appinfo: @apiInfo}, :layout=>:"layout/layout"
     # val = 10
     # thr = Thread.new {
@@ -243,17 +245,19 @@ class SayMeApp < Sinatra::Application
   # Resolver Actions
   # incoming requests by type
   get '/reqs' do
-    # if env['warden'].user.account_type.eql?AccountType::RESOLVER
-      timeRange = DateOperations.nowtimeobject-(60 * 60 * 24 * 7)
-      pendingRequests = RequestAction.all(:requesting_time.gt => timeRange,
-                                          :request_status => RequestStatus::PENDING,
-                                          :request_type => RequestType::IMAGE,
-                                          :order => [ :requesting_time.desc ])
-      unless pendingRequests.nil? and not pendingRequests.empty?
-        return format_response(pendingRequests, request.accept)
-      end
-
-    # end
+    unless env['warden'].user.account_type.eql?AccountType::RESOLVER
+      env['warden'].authenticate!
+    end
+    puts env['warden'].user.id
+    timeRange = DateOperations.nowtimeobject-(60 * 60 * 24 * 7)
+    pendingRequests = RequestAction.all(:requesting_time.gt => timeRange,
+                                        :request_status => RequestStatus::PENDING,
+                                        :request_type => RequestType::IMAGE,
+                                        :resolver => env['warden'].user,
+                                            :order => [ :requesting_time.desc ])
+    unless pendingRequests.nil? and not pendingRequests.empty?
+      return format_response(pendingRequests, request.accept)
+    end
     return format_response("No requests", request.accept)
 
   end
@@ -307,6 +311,27 @@ class SayMeApp < Sinatra::Application
     end
     return format_response("No requests", request.accept)
   end
+
+  post '/iamactive' do
+    env['warden'].authenticate!
+    # flash[:success] = env['warden'].message
+    if env['warden'].user.account_type.eql?AccountType::RESOLVER
+      isActiveAccount = ActiveAccount.first(:account=>env['warden'].user)
+      if isActiveAccount.nil?
+        activeAccount = ActiveAccount.new
+        activeAccount.account = env['warden'].user
+        activeAccount.atime = DateOperations.nowtime
+        activeAccount.save
+      else
+        isActiveAccount.atime = DateOperations.nowtime
+        isActiveAccount.save
+      end
+
+      return format_response(true, request.accept)
+    end
+  end
+
+
 
 
   def captcha_pass?(session, answer)
