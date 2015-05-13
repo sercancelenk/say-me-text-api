@@ -14,7 +14,8 @@ class SayMeApp < Sinatra::Application
 
   # Home Page
   get '/' do
-    # Mail.sendMail "sparrowarr@gmail.com", "Deneme Maili", "<p>Deneme mailidir</p>"
+
+    Mail.sendMail "sercancelenk@gmail.com", "Deneme Maili", "<p>Deneme mailidir</p>"
     erb :home, locals: {appinfo: @apiInfo}, :layout=>:"layout/layout"
     # val = 10
     # thr = Thread.new {
