@@ -176,11 +176,11 @@ module Sinatra
             :html_body => body,
             :via => :smtp,
             :via_options => {
-                :address              => 'mail.istcape.com',
+                :address              => 'smtp.gmail.com',
                 :port                 => '587',
                 :enable_starttls_auto => true,
-                :user_name            => 'info@istcape.com',
-                :password             => '123456',
+                :user_name            => 'sparrowarr@gmail.com',
+                :password             => 'sercan@sercan',
                 :authentication       => :plain, # :plain, :login, :cram_md5, no auth by default
                 :domain               => "localhost.localdomain"
             },
