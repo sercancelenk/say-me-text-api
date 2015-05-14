@@ -8,7 +8,7 @@ class SayMeApp < Sinatra::Application
             'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST'],
             'Access-Control-Allow-Headers' => 'Content-Type'
 
-    @requestActions = queryforweb.getResponseRequestCountsBy 60
+    @requestActions = queryforweb.getResponseRequestCountsBy 60, env['warden'].user
     @apiInfo = {}
     @apiInfo['respondedCount'] = @requestActions.count
   end
