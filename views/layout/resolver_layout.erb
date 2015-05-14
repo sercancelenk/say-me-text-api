@@ -47,7 +47,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">Say Me Captcha</a>
+      <a class="navbar-brand" href="/">Say Me Text</a>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
@@ -57,7 +57,7 @@
         <li><a href="/services">Buy Service</a></li>
         <li><a href="/contact">Contact Us</a></li>
         <% if (not env['warden'].user.nil?) and  env['warden'].user.account_type.eql?"RESOLVER" %>
-            <li><a style="color:white" href="/resolveCaptcha">Resolve Captcha</a></li>
+            <li><a style="color:white" href="/resolveCaptcha">Resolve Requests</a></li>
         <% end %>
       </ul>
       <!--<form class="navbar-form navbar-left" role="search">-->

@@ -20,7 +20,7 @@ require 'rufus-scheduler'
 require 'sinatra/kittens'
 
 
-SITE_TITLE = "Say Me Captcha"
+SITE_TITLE = "Say Me Text"
 SITE_DESCRIPTION = "ask me "
 
 
