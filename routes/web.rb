@@ -199,7 +199,7 @@ class SayMeApp < Sinatra::Application
     if params[:tr].nil?
       return format_response("No record", request.accept)
     end
-    @requestActions = queryforweb.getResponseRequestCountsBy params[:tr].to_i
+    @requestActions = queryforweb.getResponseRequestCountsBy params[:tr].to_i, env['warden'].user
     @apiInfo = {}
     @apiInfo['respondedCount'] = @requestActions.count
 
@@ -211,7 +211,7 @@ class SayMeApp < Sinatra::Application
     if params[:tr].nil?
       return format_response("No record", request.accept)
     end
-    @acts = queryforweb.getRequestStatisticsBy (60 * 60 * 24 * 7)
+    @acts = queryforweb.getRequestStatisticsBy (60 * 60 * 24 * 7), env['warden'].user
 
     return format_response(@acts, request.accept)
   end

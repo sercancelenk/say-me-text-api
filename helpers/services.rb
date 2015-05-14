@@ -129,27 +129,30 @@ module Sinatra
   module Web
 
     class QueryForWeb
-      def getResponseRequestCountsBy timeRange
+      def getResponseRequestCountsBy timeRange, user
         createdDate = Utility::DateOperations.nowtimeobject-timeRange.to_i
         respondedRequests = RequestAction.all(:requesting_time.gt => createdDate,
                                               :request_status => ApiEnums::RequestStatus::RESPONDED,
+                                              :resolver => user,
                                               :order => [ :requesting_time.desc ])
         return respondedRequests unless respondedRequests.nil?
       end
-      def getRequestActions timeRange
+      def getRequestActions timeRange, user
         createdDate = Utility::DateOperations.nowtimeobject-timeRange.to_i
         respondedRequests = RequestAction.all(:requesting_time.gt => createdDate,
+                                              :resolver => user,
                                               :order => [ :requesting_time.desc ])
         return respondedRequests unless respondedRequests.nil?
       end
-      def getResponseActions timeRange
+      def getResponseActions timeRange, user
         createdDate = Utility::DateOperations.nowtimeobject-timeRange.to_i
         respondedRequests = ResponseAction.all(:created_date.gt => createdDate,
+                                               :resolver => user,
                                                :order => [ :createdDate.desc ])
         return respondedRequests unless respondedRequests.nil?
       end
-      def getRequestStatisticsBy timeRange
-        stat  = RequestAction.aggregate(:request_status,:request_status.count )
+      def getRequestStatisticsBy timeRange, user
+        stat  = RequestAction.aggregate(:request_status,:request_status.count, :conditions => [:resolver => user])
         result = {}
         if stat.nil?
         else
