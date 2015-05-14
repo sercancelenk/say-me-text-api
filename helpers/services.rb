@@ -152,8 +152,12 @@ module Sinatra
         return respondedRequests unless respondedRequests.nil?
       end
       def getRequestStatisticsBy timeRange, user
-        stat  = RequestAction.aggregate(:request_status,:request_status.count, :conditions => [:resolver => user])
         result = {}
+        if user.nil?
+          return result
+        end
+        stat  = RequestAction.all(:resolver=>user).aggregate(:request_status,:request_status.count)
+        # stat = stat.all(:resolver=>user)
         if stat.nil?
         else
           stat.each do |k,v|

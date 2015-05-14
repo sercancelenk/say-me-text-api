@@ -1,50 +1,85 @@
 
-<div class="row text-center">
 
-  <div class="col-md-12 col-sm-12">
-    <div id="divMasterDetailWrapper" ng-controller='MasterDetailCtrl' style="position:relative;">
+    <div class="row" ng-controller='MasterDetailCtrl' style="padding-left:15px;">
+      <div class="col-xs-12 col-md-4 col-sm-4 col-lg-4 well">
+        <div id="divMasterView">
+        <div id="row_{{Request.id}}" class="cssOneCompanyRecord" ng-class="{cssCompanySelectedRecord: Request == selectedRequest}" ng-repeat='Request in listOfRequests' ng-click="selectRequest(Request);">
+          <div class="cssRequestType">{{ Request.requesting_time.substr(0,19) }}</div>
+          <div class="cssRequestingTime">{{incomingRequestLabel}}</div>
+          <div class="cssRequestStatus"><span class="badge"><small>{{Request.request_status}}</small></span></div>
+          <img src='{{Request.requesting_image}}' title="This is a tooltip for the company: {{Request.request_status}}" class="cssCustomerIcon" />
+        </div>
+        <span ng-show="listOfRequests.length<=0">No incoming request..</span><br>
+        <span ng-show="loading" ><small>Loading..</small></span>
+        </div>
+      </div>
 
-      <!-- First, we have our left-hand list of Customer names -->
-      <div id="divMasterView">
+      <div class="col-xs-12 col-md-8 col-sm-8 col-lg-8 text-center well">
+        <div id="divDetailView">
+        <form 	name="resolverForm"
+                 class="form"
+                 novalidate
+                 style="margin:10px;">
 
-          <div id="row_{{Request.id}}" class="cssOneCompanyRecord" ng-class="{cssCompanySelectedRecord: Request == selectedRequest}" ng-repeat='Request in listOfRequests' ng-click="selectRequest(Request);">
-            <div class="cssRequestType">{{ Request.requesting_time.substr(0,19) }}</div>
-            <div class="cssRequestingTime">{{incomingRequestLabel}}</div>
-            <div class="cssRequestStatus"><span class="badge"><small>{{Request.request_status}}</small></span></div>
-            <img src='{{Request.requesting_image}}' title="This is a tooltip for the company: {{Request.request_status}}" class="cssCustomerIcon" />
+          <div class="form-group text-center">
+            <img style="border:1px solid gray;border-radius:8px;box-shadow: 5px 5px 5px #555;width:400px;padding:25px" src="{{selectedRequest.requesting_image}}" alt="">
           </div>
-          <span ng-show="listOfRequests.length<=0" style="color:white">No incoming request..</span><br>
-            <span ng-show="loading" style="color:white"><small>Loading..</small></span>
+          <div class="form-group">
+            <input name="rt" type="text" class="form-control" ng-model="rt" placeholder="type result" required>
+
+          </div>
+
+
+          <div class="form-group text-center">
+            <button type="submit" class="btn btn-default btn-lg form-control" ng-click="submitForm()" ng-disabled="resolverForm.$invalid || submitButtonDisabled">
+              <span class="glyphicon glyphicon-flash"></span> Submit!
+            </button>
+          </div>
+
+
+        </form>
+        </div>
       </div>
-      <div id="divDetailView">
 
-            <form 	name="resolverForm"
-                     class="form"
-                     novalidate
-                     style="margin:10px;">
-
-              <div class="form-group text-center">
-                <img style="border:1px solid gray;border-radius:8px;box-shadow: 5px 5px 5px #555;width:400px;padding:25px" src="{{selectedRequest.requesting_image}}" alt="">
-              </div>
-              <div class="form-group">
-                <input name="rt" type="text" class="form-control" ng-model="rt" placeholder="type result" required>
-
-              </div>
-
-
-              <div class="form-group text-center">
-                <button type="submit" class="btn btn-default btn-lg form-control" ng-click="submitForm()" ng-disabled="resolverForm.$invalid || submitButtonDisabled">
-                  <span class="glyphicon glyphicon-flash"></span> Submit!
-                </button>
-              </div>
-
-
-            </form>
-
-      </div>
     </div>
-  </div>
+    <!--<div id="divMasterDetailWrapper" ng-controller='MasterDetailCtrl' style="position:relative;">-->
+
+      <!--&lt;!&ndash; First, we have our left-hand list of Customer names &ndash;&gt;-->
+      <!--<div id="divMasterView">-->
+
+          <!--<div id="row_{{Request.id}}" class="cssOneCompanyRecord" ng-class="{cssCompanySelectedRecord: Request == selectedRequest}" ng-repeat='Request in listOfRequests' ng-click="selectRequest(Request);">-->
+            <!--<div class="cssRequestType">{{ Request.requesting_time.substr(0,19) }}</div>-->
+            <!--<div class="cssRequestingTime">{{incomingRequestLabel}}</div>-->
+            <!--<div class="cssRequestStatus"><span class="badge"><small>{{Request.request_status}}</small></span></div>-->
+            <!--<img src='{{Request.requesting_image}}' title="This is a tooltip for the company: {{Request.request_status}}" class="cssCustomerIcon" />-->
+          <!--</div>-->
+          <!--<span ng-show="listOfRequests.length<=0" style="color:white">No incoming request..</span><br>-->
+            <!--<span ng-show="loading" style="color:white"><small>Loading..</small></span>-->
+      <!--</div>-->
+      <!--<div id="divDetailView">-->
+
+            <!--<form 	name="resolverForm"-->
+                     <!--class="form"-->
+                     <!--novalidate-->
+                     <!--style="margin:10px;">-->
+
+              <!--<div class="form-group text-center">-->
+                <!--<img style="border:1px solid gray;border-radius:8px;box-shadow: 5px 5px 5px #555;width:400px;padding:25px" src="{{selectedRequest.requesting_image}}" alt="">-->
+              <!--</div>-->
+              <!--<div class="form-group">-->
+                <!--<input name="rt" type="text" class="form-control" ng-model="rt" placeholder="type result" required>-->
+
+              <!--</div>-->
 
 
+              <!--<div class="form-group text-center">-->
+                <!--<button type="submit" class="btn btn-default btn-lg form-control" ng-click="submitForm()" ng-disabled="resolverForm.$invalid || submitButtonDisabled">-->
+                  <!--<span class="glyphicon glyphicon-flash"></span> Submit!-->
+                <!--</button>-->
+              <!--</div>-->
 
-</div>
+
+            <!--</form>-->
+
+      <!--</div>-->
+    <!--</div>-->

@@ -396,7 +396,6 @@ saymeapp
             var url = "/reqstats/" + timeRange;
             $http.get(url)
                 .success(function (data) {
-                    console.log(data)
                     $scope.errorcnt = data["ERROR"]
                     $scope.notrespondedcnt = data["NOTRESPONDED"]
                     $scope.respondedcnt = data["RESPONDED"]

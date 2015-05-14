@@ -11,25 +11,24 @@
 }
 #divMasterView
 {
-    width: 30%;
     min-height: 500px;
     height: 500px;
     /*height: 100%;*/
-    background-color: #111;
+    /*background-color: #111;*/
     /*margin: 2px;*/
-    padding:10px;
+    /*padding:10px;*/
     overflow-y: auto;
     float: left;
     /*border:1px solid #fff;*/
+    color:darkgray;
 }
 #divDetailView
 {
     min-height: 500px;
     height: 500px;
-    width:70%;
     /*float: right;*/
     /* Fadey background CSS, created with: http://www.colorzilla.com/gradient-editor/ */
-    background: #3c3c3c; /* Old browsers */
+    /*background: #3c3c3c; *//* Old browsers */
     /*background: -moz-linear-gradient(top,  lightblue 0%, #fff9e5 51%, #fff9e5 100%); *//* FF3.6+ */
     /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d9d9d9), color-stop(51%,#f2fff2), color-stop(100%,#fff9e5));*//* Chrome,Safari4+ */
     /*background: -webkit-linear-gradient(top,  d9d9d9 0%,#fff9e5 51%,#fff9e5 100%); *//* Chrome10+,Safari5.1+ */
@@ -191,4 +190,7 @@
 .cssProductOdd {
     background-color: #F0F8F8;
 }
+.profile-image{
+    margin-top: 15px;
+    border-radius: 50%;}
 

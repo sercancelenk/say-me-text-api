@@ -113,6 +113,29 @@ class SayMeApp < Sinatra::Application
   register_page = lambda do
     erb :"shared_web_pages/register", :layout => :"layout/layout"
   end
+  resolve_captcha_page = lambda do
+    env['warden'].authenticate!
+    # flash[:success] = env['warden'].message
+    if env['warden'].user.account_type.eql?AccountType::RESOLVER
+      erb :resolveCaptcha, :layout => :"layout/resolver_layout"
+    else
+      redirect '/'
+    end
+
+  end
+  profile_page = lambda do
+    if env['warden'].user.nil?
+      env['warden'].authenticate!
+    end
+    @user = env['warden'].user
+    if @user.account_type.eql?AccountType::RESOLVER
+      erb :"shared_web_pages/profile", :layout=>:"layout/resolver_layout"
+    else
+      erb :"shared_web_pages/profile", :layout=>:"layout/layout"
+    end
+
+  end
+
   register_action = lambda do
        form do
          filters :strip, :downcase
@@ -183,16 +206,7 @@ class SayMeApp < Sinatra::Application
       end
 
   end
-  resolve_captcha_page = lambda do
-    env['warden'].authenticate!
-    # flash[:success] = env['warden'].message
-    if env['warden'].user.account_type.eql?AccountType::RESOLVER
-      erb :resolveCaptcha, :layout => :"layout/resolver_layout"
-    else
-      redirect '/'
-    end
 
-  end
   api_info_action = lambda do
     # env['warden'].authenticate!
 
@@ -211,6 +225,7 @@ class SayMeApp < Sinatra::Application
     if params[:tr].nil?
       return format_response("No record", request.accept)
     end
+    puts "BLAHBLAHBLAH " << env['warden'].user.namesurname
     @acts = queryforweb.getRequestStatisticsBy (60 * 60 * 24 * 7), env['warden'].user
 
     return format_response(@acts, request.accept)
@@ -317,6 +332,8 @@ class SayMeApp < Sinatra::Application
   get '/services', &services_page
   get '/faq', &faq_page
   get '/register', &register_page
+  get '/profile', &profile_page
+
   post '/register', &register_action
   get '/account/activate', &account_activate_action
   get '/resolveCaptcha', &resolve_captcha_page
