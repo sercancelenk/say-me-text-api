@@ -72,7 +72,7 @@ module Sinatra
             resp.data = nil
           else
             creditInfo = _loadCreditInfoBy(usr, pss, st)
-            if creditInfo.remainingcredit <= 0
+            if creditInfo.nil? or creditInfo.remainingcredit <= 0
               resp.valid = false
               resp.error = "No credit for request"
               resp.data = nil
