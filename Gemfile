@@ -47,6 +47,6 @@ gem 'sinatra-captcha'
 # scheduling
 gem 'rufus-scheduler'
 
-#random kitten photo for not_found pages
+#random kitten photo for not_found shared_web_pages
 gem 'sinatra-kittens'
 

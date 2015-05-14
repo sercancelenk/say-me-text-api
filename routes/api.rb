@@ -7,8 +7,7 @@ class SayMeApp < Sinatra::Application
             'Access-Control-Allow-Headers' => 'Content-Type'
   end
 
-  # Function SayMe
-  post '/sm' do
+  receive_request = lambda do
 
     content_type :json
     requestAction = nil
@@ -159,9 +158,7 @@ class SayMeApp < Sinatra::Application
     # }
 
   end
-
-  # Credit info
-  post '/ci' do
+  receive_credit_info_request = lambda do
     content_type :json
 
     begin
@@ -204,9 +201,7 @@ class SayMeApp < Sinatra::Application
       return format_response(response, request.accept)
     end
   end
-
-  # Back Return
-  post '/br' do
+  receive_back_return = lambda do
     content_type :json
 
     begin
@@ -248,4 +243,7 @@ class SayMeApp < Sinatra::Application
 
   end
 
+  post '/sm', &receive_request
+  post '/ci', &receive_credit_info_request
+  post '/br', &receive_back_return
 end

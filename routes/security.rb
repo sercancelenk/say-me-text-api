@@ -1,8 +1,9 @@
 class SayMeApp < Sinatra::Application
-  get '/auth/login' do
+
+  login_page = lambda do
     erb :home, :layout=>:"layout/layout"
   end
-  post '/auth/login' do
+  login_action = lambda do
     env['warden'].authenticate!
     # flash[:success] = env['warden'].message
     if session[:return_to].nil?
@@ -11,16 +12,22 @@ class SayMeApp < Sinatra::Application
       redirect session[:return_to]
     end
   end
-  get '/auth/logout' do
+  logout_action = lambda do
     env['warden'].raw_session.inspect
     env['warden'].logout
     flash[:success] = 'Successfully logged out'
     redirect '/'
   end
-  post '/auth/unauthenticated' do
+  is_authenticated = lambda do
     session[:return_to] = env['warden.options'][:attempted_path] if session[:return_to].nil?
     # Set the error and use a fallback if the message is not defined
     flash[:error] = env['warden.options'][:message] || "You must log in"
     redirect '/auth/login'
   end
+
+  get '/auth/login', &login_page
+  post '/auth/login', &login_action
+  get '/auth/logout', &logout_action
+  post '/auth/unauthenticated', &is_authenticated
+
 end

@@ -5849,7 +5849,7 @@
 		/**
 		 * Change the pagination - provides the internal logic for pagination in a simple API
 		 * function. With this function you can have a DataTables table go to the next,
-		 * previous, first or last pages.
+		 * previous, first or last shared_web_pages.
 		 *  @param {string|int} mAction Paging action to take: "first", "previous", "next" or "last"
 		 *    or page number to jump to (integer), note that page 0 is the first page.
 		 *  @param {bool} [bRedraw=true] Redraw the table or not
@@ -7290,7 +7290,7 @@
 	 *
 	 * @return {object} Object with the following properties set:
 	 *  * `page` - Current page index (zero based - i.e. the first page is `0`)
-	 *  * `pages` - Total number of pages
+	 *  * `shared_web_pages` - Total number of shared_web_pages
 	 *  * `start` - Display index for the first record shown on the current page
 	 *  * `end` - Display index for the last record shown on the current page
 	 *  * `length` - Display length (number of records). Note that generally `start
@@ -11088,7 +11088,7 @@
 			 * * `\_TOTAL\_` - Number of records in the table after filtering
 			 * * `\_MAX\_` - Number of records in the table without filtering
 			 * * `\_PAGE\_` - Current page number
-			 * * `\_PAGES\_` - Total number of pages of data in the table
+			 * * `\_PAGES\_` - Total number of shared_web_pages of data in the table
 			 *
 			 *  @type string
 			 *  @default Showing _START_ to _END_ of _TOTAL_ entries
@@ -13641,7 +13641,7 @@
 		 * The functions defined take two parameters:
 		 *
 		 * 1. `{int} page` The current page index
-		 * 2. `{int} pages` The number of pages in the table
+		 * 2. `{int} shared_web_pages` The number of shared_web_pages in the table
 		 *
 		 * Each function is expected to return an array where each element of the
 		 * array can be one of:
@@ -13665,7 +13665,7 @@
 		 *
 		 *  @example
 		 *    // Show previous, next and current page buttons only
-		 *    $.fn.dataTableExt.oPagination.current = function ( page, pages ) {
+		 *    $.fn.dataTableExt.oPagination.current = function ( page, shared_web_pages ) {
 		 *      return [ 'previous', page, 'next' ];
 		 *    };
 		 */

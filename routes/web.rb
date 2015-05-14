@@ -1,10 +1,8 @@
 require 'sinatra/captcha'
 
 class SayMeApp < Sinatra::Application
-
-
-
   queryforweb = QueryForWeb.new
+
   before do
     headers 'Access-Control-Allow-Origin' => '*',
             'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST'],
@@ -15,8 +13,7 @@ class SayMeApp < Sinatra::Application
     @apiInfo['respondedCount'] = @requestActions.count
   end
 
-  # Home Page
-  get '/' do
+  home_page = lambda do
 
     erb :home, locals: {appinfo: @apiInfo}, :layout=>:"layout/layout"
     # val = 10
@@ -101,28 +98,22 @@ class SayMeApp < Sinatra::Application
     # format_response(val, request.accept)
 
   end
-
-  # Web Pages
-  get '/faq' do
-    erb :faq, :layout => :"layout/layout"
+  faq_page = lambda do
+    erb :"shared_web_pages/faq", :layout => :"layout/layout"
   end
-  get '/services' do
-    erb :buyservice, :layout => :"layout/layout"
+  services_page = lambda do
+    erb :"shared_web_pages/buyservice", :layout => :"layout/layout"
   end
-  get '/api' do
-    erb :api, :layout => :"layout/layout"
+  api_page = lambda do
+    erb :"shared_web_pages/api", :layout => :"layout/layout"
   end
-  get '/contact' do
-    erb :contact, :layout => :"layout/layout"
+  contact_page = lambda do
+    erb :"shared_web_pages/contact", :layout => :"layout/layout"
   end
-  # Web Pages End
-
-
-  # Web Register
-  get '/register' do
-    erb :register, :layout => :"layout/layout"
+  register_page = lambda do
+    erb :"shared_web_pages/register", :layout => :"layout/layout"
   end
-  post '/register' do
+  register_action = lambda do
        form do
          filters :strip, :downcase
          field :namesurname, :present => true, :length => 4..20
@@ -132,12 +123,12 @@ class SayMeApp < Sinatra::Application
          same :same_password, [:pass1, :pass2]
        end
        if form.failed?
-         output = erb :register
+         output = erb :"shared_web_pages/register"
          fill_in_form(output)
        else
          unless captcha_pass? params[:chunky], params[:bacon]
            flash[:error] = "Please check captcha code!"
-           output = erb :register
+           output = erb :"shared_web_pages/register"
            fill_in_form(output)
          else
            reqHash = request.env["rack.request.form_hash"]
@@ -181,22 +172,18 @@ class SayMeApp < Sinatra::Application
 
 
   end
-
-  # Account activate from mail
-  get '/account/activate' do
+  account_activate_action = lambda do
       activateId = StringOperations.uri_unescape(params[:sd]).to_i
       email = StringOperations.uri_unescape(params[:m])
       unless email.nil? and activateId.nil?
         acc = Account.first(:email=>email)
-        erb :accok
+        erb :"shared_web_pages/accok"
       else
         halt 401, 'go away!'
       end
 
   end
-
-  # Resolver page 1
-  get '/resolveCaptcha' do
+  resolve_captcha_page = lambda do
     env['warden'].authenticate!
     # flash[:success] = env['warden'].message
     if env['warden'].user.account_type.eql?AccountType::RESOLVER
@@ -206,8 +193,7 @@ class SayMeApp < Sinatra::Application
     end
 
   end
-
-  get '/apinfo/:tr' do
+  api_info_action = lambda do
     # env['warden'].authenticate!
 
     if params[:tr].nil?
@@ -219,8 +205,7 @@ class SayMeApp < Sinatra::Application
 
     return format_response(@apiInfo, request.accept)
   end
-
-  get '/reqstats/:tr' do
+  request_statistics_action = lambda do
     # env['warden'].authenticate!
 
     if params[:tr].nil?
@@ -230,9 +215,7 @@ class SayMeApp < Sinatra::Application
 
     return format_response(@acts, request.accept)
   end
-
-  # Email control(username)
-  get '/mc' do
+  email_control_action = lambda do
     unless params[:m].nil?
       acc = Account.first(:email=>StringOperations.uri_unescape(params[:m]))
       unless acc.nil?
@@ -242,9 +225,7 @@ class SayMeApp < Sinatra::Application
     return format_response(false, request.accept)
   end
 
-  # Resolver Actions
-  # incoming requests by type
-  get '/reqs' do
+  incoming_requests_by_resolver = lambda do
     unless env['warden'].user.account_type.eql?AccountType::RESOLVER
       env['warden'].authenticate!
     end
@@ -261,8 +242,7 @@ class SayMeApp < Sinatra::Application
     return format_response("No requests", request.accept)
 
   end
-
-  post '/resolverAction' do
+  resolve_captcha_action = lambda do
     # return format_response(request.env, request.accept)
     env['warden'].authenticate!
     # flash[:success] = env['warden'].message
@@ -311,8 +291,7 @@ class SayMeApp < Sinatra::Application
     end
     return format_response("No requests", request.accept)
   end
-
-  post '/iamactive' do
+  i_am_active_action = lambda do
     env['warden'].authenticate!
     # flash[:success] = env['warden'].message
     if env['warden'].user.account_type.eql?AccountType::RESOLVER
@@ -332,12 +311,20 @@ class SayMeApp < Sinatra::Application
   end
 
 
-
-
-  def captcha_pass?(session, answer)
-    session = session.to_i
-    answer  = answer.gsub(/\W/, '')
-    open("http://captchator.com/captcha/check_answer/#{session}/#{answer}").read.to_i.nonzero? rescue false
-  end
+  get '/', &home_page
+  get '/api', &api_page
+  get '/contact', &contact_page
+  get '/services', &services_page
+  get '/faq', &faq_page
+  get '/register', &register_page
+  post '/register', &register_action
+  get '/account/activate', &account_activate_action
+  get '/resolveCaptcha', &resolve_captcha_page
+  get '/apinfo/:tr', &api_info_action
+  get '/reqstats/:tr', &request_statistics_action
+  get '/mc', &email_control_action
+  get '/reqs', &incoming_requests_by_resolver
+  post '/resolverAction', &resolve_captcha_action
+  post '/iamactive', &i_am_active_action
 
 end
