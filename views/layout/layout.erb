@@ -81,7 +81,7 @@
     <div class="row">
 
       <!-- Blog Post Content Column -->
-      <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8">
+      <div class="col-xs-12 col-md-8 col-sm-8 col-lg-8">
 
         <!-- Blog Post -->
         <% flash.each do |type, message| %>
@@ -102,7 +102,7 @@
 
       </div>
 
-      <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
+      <div class="col-xs-12 col-md-4 col-sm-4 col-lg-4">
 
         <div class="well" ng-controller="ApiStatusCtrl">
           <h4 class="btn btn-success form-control">Server Status: {{server_status}}</h4>
