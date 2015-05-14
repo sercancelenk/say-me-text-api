@@ -21,13 +21,10 @@ require 'sinatra/kittens'
 
 
 SITE_TITLE = "Say Me Text"
-SITE_DESCRIPTION = "ask me "
+SITE_DESCRIPTION = "ask us"
 
 
 # use Rack::Session::Cookie, secret: "IdoNotHaveAnySecret"
-
-
-
 
 class SayMeApp < Sinatra::Application
   register Sinatra::FormKeeper
